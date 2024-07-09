@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #f0f2f5;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+        }
+
+        .navbar {
+            width: 100%;
+            background-color: #340358;
+            color: #fff;
+            padding: 15px 0;
+            text-align: center;
+            font-size: 24px;
+            position: fixed;
+            top: 0;
+            left: 0;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .container {
+            background-color: #fff;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            max-width: 600px;
+            width: 100%;
+            margin: 100px 20px 20px 20px;
+        }
+
+        h3 {
+            color: #333;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+
+        textarea, input[type="range"], button {
+            width: 100%;
+            margin: 10px 0;
+            padding: 15px;
+            border-radius: 6px;
+            border: 1px solid #ddd;
+            font-size: 16px;
+        }
+
+        textarea {
+            resize: vertical;
+        }
+
+        input[type="range"] {
+            padding: 0;
+        }
+
+        button {
+            background-color: #8141d5;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            font-size: 16px;
+        }
+
+        button:hover {
+            background-color: #7221c4;
+        }
+
+        button:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+        }
+
+        .buttons {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .buttons button {
+            width: 48%;
+        }
+
+        .loading {
+            text-align: center;
+            margin-top: 20px;
+            display: none; /* Initially hidden */
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                padding: 20px;
+            }
+
+            .buttons button {
+                width: 100%;
+                margin-bottom: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="navbar">Text Summarizer</div>
+    <div class="container">
+        <form id="summarizeForm" action="{{ url_for('Summerize') }}" method="post">
+            <textarea name="data" id="" cols="30" rows="10" placeholder="Enter the data" required></textarea>
+            <input type="range" min="20" max="1000" value="100" name="maxL">
+            <div class="buttons">
+                <button type="reset">Clear</button>
+                <button type="submit">Submit</button>
+            </div>
+        </form>
+        <div class="loading" id="loadingMessage">
+            <p>Please wait patiently while the model processes your request...</p>
+        </div>
+        <h3>Summarized Text</h3>
+        <textarea name="result" id="resultText" rows="10" cols="30" readonly>{{ result }}</textarea>
+    </div>
+
+    <script>
+        document.getElementById("summarizeForm").addEventListener("submit", function(event) {
+            // Show loading message when form is submitted
+            document.getElementById("loadingMessage").style.display = "block";
+        });
+    </script>
+</body>
+</html>
